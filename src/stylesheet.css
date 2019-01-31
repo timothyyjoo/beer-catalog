@@ -1,0 +1,28 @@
+.catalog {
+  margin: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.beer {
+  display: inline;
+  color: cornflowerblue;
+  font-weight: bold;
+  animation: colorchange 10s infinite alternate;
+}
+
+@-webkit-keyframes colorchange {
+  25% {
+    
+    color: orange;
+  }
+  
+  50% {
+    
+    color: green;
+  }
+  
+  75% {
+    
+    color: red;
+  }
+}
