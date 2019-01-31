@@ -8,8 +8,12 @@ class Catalog extends Component{
   render(){
     return(
       <div className="catalog">
-        <h1>Hello, FitRankings...</h1>
-        <h5>Check out this <Beer/>!</h5>
+        <div className="card shadow p-3 mb-5 bg-white rounded">
+          <div className="card-body">
+            <h2 className="card-title">Hello, FitRankings...</h2>
+            <div className="card-text">Check out this <Beer/>!</div>
+          </div>
+        </div>
       </div>
     );
   }
