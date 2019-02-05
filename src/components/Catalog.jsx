@@ -7,11 +7,18 @@ import BeerService from '../services/beerService'
 const beerService = new BeerService
 
 class Catalog extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      beers : null
+    };
+  };
   componentDidMount() {
-    beerService.getBeers()
-    console.log(beerService.beers)
+    beerService.getBeers();
+    this.setState({ beers : beerService.beers })
   }
   render(){
+    console.log(this.state.beers)
     return(
       <div className="catalog">
         <div className="card shadow p-3 mb-5 bg-white rounded">
