@@ -2,9 +2,15 @@ import React, { Component} from "react";
 import {hot} from "react-hot-loader";
 import "../stylesheet.css";
 import Beer from './Beer';
+import BeerService from '../services/beerService'
 
+const beerService = new BeerService
 
 class Catalog extends Component{
+  componentDidMount() {
+    beerService.getBeers()
+    console.log(beerService.beers)
+  }
   render(){
     return(
       <div className="catalog">
