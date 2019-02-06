@@ -3,7 +3,7 @@ import { handleResponse, errorLog } from './responseHandlers'
 class BeerService {
   constructor() {
     this.baseURL = "https://api.punkapi.com/v2/"
-    this.beers = {}
+    this.beers = []
   }
   getBeers () {
     fetch(this.baseURL + "beers")
