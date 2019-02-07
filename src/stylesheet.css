@@ -27,10 +27,9 @@ h3 {
 }
 
 .image {
-  height: 250px;
-  width: 100px;
+  height: 225px;
+  width: 80px;
   display:flex;
-
 }
 
 .beer {

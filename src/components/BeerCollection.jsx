@@ -3,6 +3,8 @@ import {hot} from "react-hot-loader";
 import "../stylesheet.css";
 import Beer from './Beer';
 import Service from '../services/Service'
+import ReactPaginate from 'react-paginate';
+
 
 const service = new Service
 
@@ -41,6 +43,8 @@ class BeerCollection extends Component {
     const beers = this.state.beers
     return (
       <div className="container">
+        <button onClick={this.sortBeersByAbv}> Sort By Abv</button>
+        <button onClick={this.sortBeersByName}>Sort By Name</button>
         <div className="row">
           {beers.map(beer => (
             <Beer className="beer-card"
