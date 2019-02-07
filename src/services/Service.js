@@ -4,10 +4,9 @@ class Service {
   constructor() {
     this.baseURL = "https://api.punkapi.com/v2/"
     this.beers = []
-    this.page = 1
   }
-  fetchBeers () {
-    fetch(this.baseURL + "beers" + `?page=${this.page}&per_page=80`)
+  fetchBeers (offset, perPage) {
+    fetch(this.baseURL + "beers" + `?page=${offset}&per_page=${perPage}`)
       .then(handleResponse)
       .then((beers) => (this.mapBeersToModifiedBeers(beers)))
       .catch(errorLog)

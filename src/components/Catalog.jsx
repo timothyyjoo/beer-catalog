@@ -15,16 +15,16 @@ class Catalog extends Component{
       beers : null,
       input: '',
       isLoading: true,
+      offset: 1
     };
     this.sortBeersByName = this.sortBeersByName.bind(this);
     this.sortBeersByAbv = this.sortBeersByAbv.bind(this);
-    // this.fetchNewBeerSet = this.fetchNewBeerSet.bind(this);
     this.fetchSearchedBeers = this.fetchSearchedBeers.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentWillMount() {
-    service.fetchBeers();
+    service.fetchBeers(this.state.offset, this.props.perPage);
     let beers  = service.beers
     this.setState({ beers : beers, isLoading: false })
   }
@@ -38,12 +38,6 @@ class Catalog extends Component{
     const sorted = [].concat(this.state.beers).sort((a,b) => (a.abv > b.abv) ? 1 : ((b.abv > a.abv) ? -1 : 0));
     this.setState({ beers : sorted })
   };
-
-  // fetchNewBeerSet(val) {
-  //   service.fetchNewBeerSet(val)
-  //   const beers = service.beers
-  //   this.setState({ beers : beers })
-  // }
 
   fetchSearchedBeers(term) {
     this.setState({ beers : null })
@@ -60,6 +54,13 @@ class Catalog extends Component{
   handleSubmit(e) {
     e.preventDefault()
     this.fetchSearchedBeers(this.state.input)
+  }
+
+  handlePageClick(data) {
+    let selected = data.selected;
+    let offset = Math.ceil(selected * this.props.perPage)
+
+    this.setState({ offset: offset}, () => {service.fetchBeers(this.state.offset, perPage)})
   }
   render(){
     const {isLoading} = this.state
@@ -92,6 +93,19 @@ class Catalog extends Component{
           </form>
         </div>
           <BeerCollection data={this.state.beers}/>
+          <ReactPaginate
+          previousLabel={'previous'}
+          nextLabel={'next'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={this.state.pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={2}
+          onPageChange={this.handlePageClick}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+          />
       </div>
     );
   };

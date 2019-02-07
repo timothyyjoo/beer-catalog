@@ -11,6 +11,15 @@
   height: 35rem;
 }
 
+.pagination {
+  margin:10px;
+  display:flex;
+  justify-content:center;
+}
+
+.pages pagination {
+  padding: 10px;
+}
 #header-text {
   text-align:center;
 }
@@ -37,12 +46,36 @@ h3 {
 
 .beer-content {
   font-size:12px;
+  display: inline-flex;
+  flex-direction: row;
 }
 
+.beer-list {
+  margin:10px;
+}
+
+li {
+  padding:1px;
+}
+
+span {
+  padding:10px;
+}
+
+.card-title {
+  text-align:center;
+}
 .image {
   height: 225px;
   width: 80px;
   display:flex;
+}
+
+.beer-details {
+  display:flex;
+  font-size: 15px;
+  text-align: center;
+  padding: 20px;
 }
 
 .beer {

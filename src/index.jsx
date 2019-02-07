@@ -3,6 +3,6 @@ import ReactDOM from "react-dom";
 import Catalog from "./components/Catalog.jsx";
 
 ReactDOM.render(
-    <Catalog />, 
+    <Catalog perPage={8}/>, 
     document.getElementById("root")
 );
