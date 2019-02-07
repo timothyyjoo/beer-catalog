@@ -7,13 +7,7 @@ class Service {
     this.page = 1
   }
   fetchBeers () {
-    fetch(this.baseURL + "beers" + `?page=${this.page}&per_page=8`)
-      .then(handleResponse)
-      .then((beers) => (this.mapBeersToModifiedBeers(beers)))
-      .catch(errorLog)
-  }
-  fetchNewBeerSet (page) {
-    fetch(this.baseURL + "beers" + `?page=${page}&per_page=8`)
+    fetch(this.baseURL + "beers" + `?page=${this.page}&per_page=80`)
       .then(handleResponse)
       .then((beers) => (this.mapBeersToModifiedBeers(beers)))
       .catch(errorLog)
@@ -22,7 +16,7 @@ class Service {
     this.beers = Object.assign(this.beers, data)
   }
   modifyBeerData (data) {
-    const newBeer = {
+    let newBeer = {
       id: data.id,
       name: data.name,
       tagline: data.tagline,
@@ -37,12 +31,27 @@ class Service {
     }
     return newBeer
   }
-
   mapBeersToModifiedBeers(beers) {
     const modified = beers.map((beer) => {
-      return this.modifyBeerData(beer)
+     return this.modifyBeerData(beer)
     })
-    this.addBeers(modified)
+  this.addBeers(modified)
+  }
+  fetchSearchedBeers (term) {
+    fetch(this.baseURL + "beers" + `?beer_name=${term}`)
+    .then(handleResponse)
+    .then((response) => (this.handleSearchBeers(response)))
+    .catch(errorLog)
+  }
+  handleSearchBeers(response) {
+    if (response.length === 1) {
+      this.beers = []
+      const modified = this.modifyBeerData(response[0])
+      return this.beers = Object.assign(this.beers, modified)
+    } else {
+      this.beers = []
+      return this.mapBeersToModifiedBeers(response)
+    }
   }
 }
 

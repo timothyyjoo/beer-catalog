@@ -1,9 +1,9 @@
 import React, { Component} from "react";
 import {hot} from "react-hot-loader";
 import "../stylesheet.css";
-import Beer from './Beer';
 import Service from '../services/Service'
-
+import ReactPaginate from 'react-paginate';
+import BeerCollection from './BeerCollection'
 
 const service = new Service
 
@@ -13,15 +13,19 @@ class Catalog extends Component{
     super(props);
     this.state = {
       beers : null,
+      input: '',
       isLoading: true,
     };
     this.sortBeersByName = this.sortBeersByName.bind(this);
     this.sortBeersByAbv = this.sortBeersByAbv.bind(this);
-    this.fetchNewBeerSet = this.fetchNewBeerSet.bind(this);
+    // this.fetchNewBeerSet = this.fetchNewBeerSet.bind(this);
+    this.fetchSearchedBeers = this.fetchSearchedBeers.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     service.fetchBeers();
-    const beers  = service.beers
+    let beers  = service.beers
     this.setState({ beers : beers, isLoading: false })
   }
 
@@ -35,54 +39,59 @@ class Catalog extends Component{
     this.setState({ beers : sorted })
   };
 
-  fetchNewBeerSet(val) {
-    service.fetchNewBeerSet(val)
+  // fetchNewBeerSet(val) {
+  //   service.fetchNewBeerSet(val)
+  //   const beers = service.beers
+  //   this.setState({ beers : beers })
+  // }
+
+  fetchSearchedBeers(term) {
+    this.setState({ beers : null })
+    service.fetchSearchedBeers(term)
     const beers = service.beers
-    this.setState({ beers : beers })
+    this.setState({ beers: beers })
   }
 
+  handleChange(e) {
+    e.preventDefault()
+    let input = e.target.value.replace(/ /g,"_")
+    this.setState({ input : input})
+  }
+  handleSubmit(e) {
+    e.preventDefault()
+    this.fetchSearchedBeers(this.state.input)
+  }
   render(){
     const {isLoading} = this.state
-    if (isLoading) {
-      return <h1>Loading ...</h1>;
-      }
-    const beers = this.state.beers
-    console.log('beers', this.state.beers)
+    const {beers, input} = this.state
     return(
       <div>
         <h3>The FitRankings Beer Catalog</h3>
         <p id="header-text">Check out some of our personal favorite beers!</p>
-          <div className="container">
+          {isLoading &&
+             <h1>Loading ...</h1>
+          }
+        <div className="header-style">
             <button onClick={this.sortBeersByAbv}> Sort By Abv</button>
             <button onClick={this.sortBeersByName}>Sort By Name</button>
-            <button onClick={() => this.fetchNewBeerSet(1)}>Page 1</button>
-            <button onClick={() => this.fetchNewBeerSet(2)}>Page 3</button>
-            <button onClick={() => this.fetchNewBeerSet(3)}>Page 3</button>
-            <button onClick={() => this.fetchNewBeerSet(4)}>Page 4</button>
-            <button onClick={() => this.fetchNewBeerSet(5)}>Page 5</button>
-            <button onClick={() => this.fetchNewBeerSet(6)}>Page 6</button>
-            <button onClick={() => this.fetchNewBeerSet(7)}>Page 7</button>
-            <button onClick={() => this.fetchNewBeerSet(8)}>Page 8</button>
-            <button onClick={() => this.fetchNewBeerSet(9)}>Page 9</button>
-            <button onClick={() => this.fetchNewBeerSet(10)}>Page 10</button>
-            <div className="row">
-              {beers.map(beer => (
-                <Beer className="beer-card"
-                  key={beer.id}
-                  name={beer.name}
-                  tagline={beer.tagline}
-                  date={beer.date}
-                  desc={beer.desc}
-                  image={beer.image}
-                  abv={beer.abv}
-                  ibu={beer.ibu}
-                  yeast={beer.yeast}
-                  food={beer.food}
-                  tip={beer.tip}
-                />
-              ))}
-            </div>
-          </div>
+        </div>
+        <div className="form-style">
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <input
+                className="header-input-form"
+                id="search"
+                placeholder= "Search Beers"
+                type='text'
+                autoComplete="off"
+                onChange={this.handleChange}/>
+            </label>
+            <button type="submit" value="Submit">
+              Submit
+            </button>
+          </form>
+        </div>
+          <BeerCollection data={this.state.beers}/>
       </div>
     );
   };
