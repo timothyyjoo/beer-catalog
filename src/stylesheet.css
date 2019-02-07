@@ -8,8 +8,21 @@
 
 .card {
   width: 25rem;
-  height: 15rem;
+  height: 25rem;
 }
+
+#header-text {
+  text-align:center;
+}
+
+h3 {
+  padding-top: 10px;
+  font-size: 32px;
+  text-align:center;
+  color: inherit;
+}
+
+
 
 .beer {
   display: inline;
@@ -20,17 +33,17 @@
 
 @-webkit-keyframes colorchange {
   25% {
-    
+
     color: orange;
   }
-  
+
   50% {
-    
+
     color: green;
   }
-  
+
   75% {
-    
+
     color: red;
   }
 }
