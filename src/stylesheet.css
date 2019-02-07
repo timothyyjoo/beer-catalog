@@ -8,7 +8,7 @@
 
 .card {
   width: 30rem;
-  height: 35rem;
+  height: 37rem;
 }
 
 .pagination {
@@ -54,8 +54,13 @@ h3 {
   margin:10px;
 }
 
+ul {
+  padding-left:3px;
+}
 li {
-  padding:1px;
+  padding-left:2px;
+  padding-top:3px;
+  margin-left: 12px;
 }
 
 span {
@@ -73,9 +78,9 @@ span {
 
 .beer-details {
   display:flex;
-  font-size: 15px;
+  font-size: 14px;
   text-align: center;
-  padding: 20px;
+  padding: 5px;
 }
 
 .beer {
