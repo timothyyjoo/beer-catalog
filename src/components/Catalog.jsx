@@ -15,7 +15,6 @@ class Catalog extends Component{
       beers : null,
       input: '',
       isLoading: true,
-      offset: 1
     };
     this.sortBeersByName = this.sortBeersByName.bind(this);
     this.sortBeersByAbv = this.sortBeersByAbv.bind(this);
@@ -24,7 +23,7 @@ class Catalog extends Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentWillMount() {
-    service.fetchBeers(this.state.offset, this.props.perPage);
+    service.fetchBeers();
     let beers  = service.beers
     this.setState({ beers : beers, isLoading: false })
   }
@@ -45,7 +44,7 @@ class Catalog extends Component{
     const beers = service.beers
     this.setState({ beers: beers })
   }
-
+//for search functionality
   handleChange(e) {
     e.preventDefault()
     let input = e.target.value.replace(/ /g,"_")
@@ -55,13 +54,14 @@ class Catalog extends Component{
     e.preventDefault()
     this.fetchSearchedBeers(this.state.input)
   }
-
+///for pagination
   handlePageClick(data) {
     let selected = data.selected;
     let offset = Math.ceil(selected * this.props.perPage)
 
     this.setState({ offset: offset}, () => {service.fetchBeers(this.state.offset, perPage)})
   }
+
   render(){
     const {isLoading} = this.state
     const {beers, input} = this.state
