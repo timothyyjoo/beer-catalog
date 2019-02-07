@@ -4,7 +4,6 @@ import "../stylesheet.css";
 
 const Beer = (props) => {
   let { name, tagline, date, desc, image, abv, ibu, yeast,food, tip} = props
-  console.log('image', image)
     return (
       <div className="card shadow p-3 mb-5 bg-white rounded">
         <div className="card-body">

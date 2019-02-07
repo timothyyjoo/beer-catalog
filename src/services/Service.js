@@ -4,18 +4,23 @@ class Service {
   constructor() {
     this.baseURL = "https://api.punkapi.com/v2/"
     this.beers = []
+    this.page = 1
   }
   fetchBeers () {
-    fetch(this.baseURL + "beers")
+    fetch(this.baseURL + "beers" + `?page=${this.page}&per_page=8`)
       .then(handleResponse)
       .then((beers) => (this.mapBeersToModifiedBeers(beers)))
       .catch(errorLog)
   }
-
+  fetchNewBeerSet (page) {
+    fetch(this.baseURL + "beers" + `?page=${page}&per_page=8`)
+      .then(handleResponse)
+      .then((beers) => (this.mapBeersToModifiedBeers(beers)))
+      .catch(errorLog)
+  }
   addBeers (data) {
     this.beers = Object.assign(this.beers, data)
   }
-
   modifyBeerData (data) {
     const newBeer = {
       id: data.id,
