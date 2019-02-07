@@ -52,6 +52,7 @@ class Service {
       return this.mapBeersToModifiedBeers(response)
     }
   }
+
 }
 
 export default Service;

@@ -12,9 +12,7 @@ class BeerCollection extends Component {
       collection : null
     }
   }
-
   render() {
-    console.log(this.props.data, 'data')
     let beerList = this.props.data.map(beer => {
     return  <Beer className="beer-card"
         key={beer.id}

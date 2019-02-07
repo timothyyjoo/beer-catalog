@@ -99,8 +99,8 @@ class Catalog extends Component{
           breakLabel={'...'}
           breakClassName={'break-me'}
           pageCount={this.state.pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={2}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={1}
           onPageChange={this.handlePageClick}
           containerClassName={'pagination'}
           subContainerClassName={'pages pagination'}
