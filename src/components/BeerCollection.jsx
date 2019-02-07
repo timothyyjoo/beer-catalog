@@ -49,7 +49,7 @@ class BeerCollection extends Component {
               tagline={beer.tagline}
               date={beer.date}
               desc={beer.desc}
-              inage={beer.image}
+              image={beer.image}
               abv={beer.abv}
               ibu={beer.ibu}
               yeast={beer.yeast}

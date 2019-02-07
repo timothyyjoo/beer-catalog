@@ -7,8 +7,8 @@
 }
 
 .card {
-  width: 25rem;
-  height: 25rem;
+  width: 30rem;
+  height: 35rem;
 }
 
 #header-text {
@@ -22,7 +22,16 @@ h3 {
   color: inherit;
 }
 
+.beer-content {
+  font-size:12px;
+}
 
+.image {
+  height: 250px;
+  width: 100px;
+  display:flex;
+
+}
 
 .beer {
   display: inline;
