@@ -13,7 +13,7 @@ class Service {
       .catch(errorLog)
   }
   addBeers (data) {
-    this.beers = Object.assign(this.beers, data)
+    return this.beers = Object.assign(this.beers, data)
   }
   modifyBeerData (data) {
     let newBeer = {

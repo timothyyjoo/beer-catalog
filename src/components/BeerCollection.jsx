@@ -35,6 +35,7 @@ class BeerCollection extends Component {
   };
   render() {
     const { currentPage, beersPerPage, beers } = this.state;
+    console.log('beercollectionbeers', beers)
     const indexOfLastBeer = currentPage * beersPerPage;
     const indexOfFirstBeer = indexOfLastBeer - beersPerPage;
     const currentBeers = beers.slice(indexOfFirstBeer, indexOfLastBeer);

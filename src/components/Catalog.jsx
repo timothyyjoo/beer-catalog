@@ -15,49 +15,16 @@ class Catalog extends Component{
       input: '',
       isLoading: true,
     };
-    // this.sortBeersByName = this.sortBeersByName.bind(this);
-    // this.sortBeersByAbv = this.sortBeersByAbv.bind(this);
-    // this.fetchSearchedBeers = this.fetchSearchedBeers.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentWillMount() {
-    service.fetchBeers();
-    let beers  = service.beers
-    // console.log('beers', beers)
-    this.setState({ beers: beers, isLoading: false})
+    service.fetchBeers()
+    console.log('beers', service.beers)
+    this.setState({ beers: service.beers, isLoading: false})
   }
-
-  // sortBeersByName() {
-  //   const sorted = [].concat(this.state.beers).sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
-  //   this.setState({ beers : sorted })
-  // }
-  //
-  // sortBeersByAbv() {
-  //   const sorted = [].concat(this.state.beers).sort((a,b) => (a.abv > b.abv) ? 1 : ((b.abv > a.abv) ? -1 : 0));
-  //   this.setState({ beers : sorted })
-  // };
-  //for search functionality
-
-  // fetchSearchedBeers(term) {
-  //   this.setState({ beers : null })
-  //   service.fetchSearchedBeers(term)
-  //   const beers = service.beers
-  //   this.setState({ beers: beers })
-  // }
-  // handleChange(e) {
-  //   e.preventDefault()
-  //   let input = e.target.value.replace(/ /g,"_")
-  //   this.setState({ input : input})
-  // }
-  // handleSubmit(e) {
-  //   e.preventDefault()
-  //   this.fetchSearchedBeers(this.state.input)
-  // }
 
   render(){
     const { isLoading, beers} = this.state
-
+    console.log('renderedbeers', beers)
     return(
       <div>
         <h3>The FitRankings Beer Catalog</h3>
