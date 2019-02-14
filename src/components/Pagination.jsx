@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 
-const LEFT_PAGE = 'LEFT';
-const RIGHT_PAGE = 'RIGHT';
+const LEFT_PAGE = "LEFT";
+const RIGHT_PAGE = "RIGHT";
+
 
 const range = (from, to, step = 1) => {
   let i = from;
@@ -15,14 +16,14 @@ const range = (from, to, step = 1) => {
   return range;
 }
 
+
 class Pagination extends Component {
   constructor(props) {
     super(props);
-    const { totalRecords = 80, pageLimit = 8, pageNeighbours = 0 } = props;
+    const { totalRecords = null, pageLImit = 30, pageNeighbors = 0 } = props;
 
     this.pageLimit = typeof pageLimit === 'number' ? pageLimit : 30;
-    this.totalRecords = typeof totalRecords === 'number' ? totalRecords : 0;
-
+    this.totalRecords = typeof totalRecords === ' number' ? totalRecords : 0
 
     this.pageNeighbours = typeof pageNeighbours === 'number'
       ? Math.max(0, Math.min(pageNeighbours, 2))
@@ -30,14 +31,15 @@ class Pagination extends Component {
 
     this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
 
-    this.state = { currentPage: 1 };
-  }
-  componentDidMount() {
-    this.gotoPage(1);
-  }
+    this.state = { currentPage : 1 };
+  };
 
-  gotoPage(page) {
-    const { onPageChanged = f => f } = this.props;
+  componentDidMount() {
+    this.goToPage(1)
+  };
+
+  goToPage(page) {
+    const { onPageChanged = (f) => f } = this.props;
 
     const currentPage = Math.max(0, Math.min(page, this.totalPages));
 
@@ -45,105 +47,104 @@ class Pagination extends Component {
       currentPage,
       totalPages: this.totalPages,
       pageLimit: this.pageLimit,
-      totalRecords: this.totalRecords
+      totalRecords: this.totalRecords,
     };
 
     this.setState({ currentPage }, () => onPageChanged(paginationData));
+  };
+
+  handleClick(page){
+    return function(e) {
+      e.preventDefault();
+      this.goToPage(page);
+    }
   }
 
-  handleClick = page => evt => {
-    evt.preventDefault();
-    this.gotoPage(page);
+  handleMoveLeft(e) {
+    e.preventDefault();
+    this.goToPage(this.state.currentPage = (this.pageNeighbours * 2) - 1 );
   }
-
-  handleMoveLeft(evt){
-    evt.preventDefault();
-    this.gotoPage(this.state.currentPage - (this.pageNeighbours * 2) - 1);
-  }
-
-  handleMoveRight(evt) {
-    evt.preventDefault();
-    this.gotoPage(this.state.currentPage + (this.pageNeighbours * 2) + 1);
+  handleMoveRight(e) {
+    e.preventDefault();
+    this.goToPage(this.state.currentPage = (this.pageNeighbours * 2) + 1 );
   }
 
   fetchPageNumbers() {
     const totalPages = this.totalPages;
     const currentPage = this.state.currentPage;
+    //pageneighbours indicates number of pages to show on each side of currentPage
     const pageNeighbours = this.pageNeighbours;
-    const totalNumbers = (this.pageNeighbors * 2) + 3;
-    const totalBlocks = totalNumbers + 2;
 
-    if (totalPages > totalBlocks) {
-      const startPage = Math.max(2, currentPage - pageNeighbors);
-      const endPage = Math.min(totalPages - 1, currentPage + pageNeighbors);
-      let pages = range(startPage, endPage);
+    const totalNumbers = (this.pageNumbers * 2) + 3;
 
-      const hasLeftSpill = startPage > 2
-      const hasRightSpill = (totalPages - endPage) > 1;
-      const spillOfset = totalNumbers - (pages.length + 1);
+    const hasLeftSpill = startPage > 2;
+    const hasRightSpill = (totalPages - endPage) > 1;
+    const spillOffset = totalNumbers - (pages.length + 1);
 
-      switch (true) {
-        case(hasLeftSpill && !hasRightSpill) : {
-          const extraPages = range(startPage - spillOffset, startPage - 1);
-          pages = [LEFT_PAGE, ...extraPages, ...pages];
-          break;
-        }
-        case (!hasLeftSpill && hasRightSpill): {
-          const extraPages = range(endPage + 1, endPage + spillOffset);
-          pages = [...pages, ...extraPages, RIGHT_PAGE];
-          break;
-        }
-        case (hasLeftSpill && hasRightSpill):
+    switch(true) {
+      case (hasLeftSpill && !hasRightSpill): {
+        const extraPages = range(startPage - spillOffset, startPage - 1);
+        pages = [LEFT_PAGE, ...extraPages, ...pages];
+        break;
+      }
+      case (!hasLeftSpill && hasRightSpill): {
+        const extraPages = range(endPage + 1, endPage + spillOffset);
+        pages = [...pages, ...extraPages, RIGHT_PAGE];
+        break;
+      }
+      case (hasLeftSpill && hasRightSpill):
         default: {
           pages = [LEFT_PAGE, ...pages, RIGHT_PAGE];
           break;
         }
-        return [1, ...pages, totalPages];
-      }
-    return range(1, totalPages);
-    }
-  }
+    };
+
+    return [1, ...pages, totalPages];
+  };
+
   render() {
     if (!this.totalRecords || this.totalPages === 1) return null;
+    const { currentPage } = this.state;
+    const pages = this.fetchPageNumbers();
+    return (
+      <Fragment>
+        <nav aria-label="Beer Pagination">
+          <ul className="pagination">
+            { pages.map((page, index) => {
 
-   const { currentPage } = this.state;
-   const pages = this.fetchPageNumbers();
+              if (page === LEFT_PAGE) return (
+                <li key={index} className="page-item">
+                  <a className="page-link" href="#" aria-label="Previous" onClick={this.handleMoveLeft}>
+                    <span aria-hidden="true">&laquo;</span>
+                    <span className="sr-only">Previous</span>
+                  </a>
+                </li>
+              );
 
-   return (
-     <Fragment>
-       <nav label="Beer Pagination">
-         <ul className="pagination">
-           { pages.map((page, index) => {
+              if (page === RIGHT_PAGE) return (
+                <li key={index} className="page-item">
+                  <a className="page-link" href="#" aria-label="Next" onClick={this.handleMoveRight}>
+                    <span aria-hidden="true">&raquo;</span>
+                    <span className="sr-only">Next</span>
+                  </a>
+                </li>
+              );
 
-             if (page === LEFT_PAGE) return (
-               <li key={index} className="page-item">
-                 <a className="page-link" href="#" aria-label="Previous" onClick={this.handleMoveLeft}>
-                   <span aria-hidden="true">&laquo;</span>
-                   <span className="sr-only">Previous</span>
-                 </a>
-               </li>
-             );
+              return (
+                <li key={index} className={`page-item${ currentPage === page ? ' active' : ''}`}>
+                  <a className="page-link" href="#" onClick={ this.handleClick(page) }>{ page }</a>
+                </li>
+              );
 
-             if (page === RIGHT_PAGE) return (
-               <li key={index} className="page-item">
-                 <a className="page-link" href="#" aria-label="Next" onClick={this.handleMoveRight}>
-                   <span aria-hidden="true">&raquo;</span>
-                   <span className="sr-only">Next</span>
-                 </a>
-               </li>
-             );
+            }) }
 
-             return (
-               <li key={index} className={`page-item${ currentPage === page ? ' active' : ''}`}>
-                 <a className="page-link" href="#" onClick={ this.handleClick(page) }>{ page }</a>
-               </li>
-             );
+          </ul>
+        </nav>
+      </Fragment>
+    );
 
-           }) }
-
-         </ul>
-       </nav>
-     </Fragment>
-   );
- }
+  }
 }
+
+
+export default Pagination;

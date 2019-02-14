@@ -1,3 +1,21 @@
+#page-numbers {
+  list-style: none;
+  display: flex;
+}
+
+#page-numbers > li {
+  margin-right: 0.3em;
+  color: blue;
+  user-select: none;
+  cursor: pointer;
+}
+
+.paginate-container {
+  display:flex;
+  align-items: center;
+  justify-content: center
+}
+
 .catalog {
   padding: 1rem;
   height: 100vh;

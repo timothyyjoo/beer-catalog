@@ -2,7 +2,7 @@ import React, { Component} from "react";
 import {hot} from "react-hot-loader";
 import "../stylesheet.css";
 import Service from '../services/Service'
-import ReactPaginate from 'react-paginate';
+import Pagination from './Pagination';
 import BeerCollection from './BeerCollection'
 
 const service = new Service
@@ -12,7 +12,7 @@ class Catalog extends Component{
   constructor(props) {
     super(props);
     this.state = {
-      beers : null,
+      beers : [],
       input: '',
       isLoading: true,
     };
@@ -25,7 +25,8 @@ class Catalog extends Component{
   componentWillMount() {
     service.fetchBeers();
     let beers  = service.beers
-    this.setState({ beers : beers, isLoading: false })
+    console.log('beers', beers)
+    this.setState({ beers: beers, isLoading: false})
   }
 
   sortBeersByName() {
@@ -55,23 +56,20 @@ class Catalog extends Component{
     this.fetchSearchedBeers(this.state.input)
   }
 ///for pagination
-  handlePageClick(data) {
-    let selected = data.selected;
-    let offset = Math.ceil(selected * this.props.perPage)
-
-    this.setState({ offset: offset}, () => {service.fetchBeers(this.state.offset, perPage)})
-  }
+  // handlePageClick(data) {
+  //   let selected = data.selected;
+  //   let offset = Math.ceil(selected * this.props.perPage)
+  //
+  //   this.setState({ offset: offset}, () => {service.fetchBeers(this.state.offset, perPage)})
+  // }
 
   render(){
-    const {isLoading} = this.state
-    const {beers, input} = this.state
+    const { isLoading, beers} = this.state
+
     return(
       <div>
         <h3>The FitRankings Beer Catalog</h3>
         <p id="header-text">Check out some of our personal favorite beers!</p>
-          {isLoading &&
-             <h1>Loading ...</h1>
-          }
         <div className="header-style">
             <button onClick={this.sortBeersByAbv}> Sort By Abv</button>
             <button onClick={this.sortBeersByName}>Sort By Name</button>
@@ -92,20 +90,13 @@ class Catalog extends Component{
             </button>
           </form>
         </div>
+          {isLoading &&
+             <h1>Loading ...</h1>
+          }
           <BeerCollection data={this.state.beers}/>
-          <ReactPaginate
-          previousLabel={'previous'}
-          nextLabel={'next'}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
-          pageCount={this.state.pageCount}
-          marginPagesDisplayed={1}
-          pageRangeDisplayed={1}
-          onPageChange={this.handlePageClick}
-          containerClassName={'pagination'}
-          subContainerClassName={'pages pagination'}
-          activeClassName={'active'}
-          />
+        <div className="d-flex flex-row py-4 align-items-center">
+
+        </div>
       </div>
     );
   };

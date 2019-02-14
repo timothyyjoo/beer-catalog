@@ -9,6 +9,7 @@ class Service {
     fetch(this.baseURL + "beers" + `?page=1&per_page=80`)
       .then(handleResponse)
       .then((beers) => (this.mapBeersToModifiedBeers(beers)))
+      .then((modified) => this.addBeers(modified))
       .catch(errorLog)
   }
   addBeers (data) {
@@ -34,7 +35,7 @@ class Service {
     const modified = beers.map((beer) => {
      return this.modifyBeerData(beer)
     })
-  this.addBeers(modified)
+    return modified
   }
   fetchSearchedBeers (term) {
     fetch(this.baseURL + "beers" + `?beer_name=${term}`)

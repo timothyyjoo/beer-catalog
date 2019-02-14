@@ -4,10 +4,9 @@ import "../stylesheet.css";
 
 const Beer = (props) => {
   let { name, tagline, date, desc, image, abv, ibu, yeast,food, tip} = props
-  console.log(food,'food')
-  let foodList = food.map((food) =>
+  let foodList = food.map((food, index) =>
      <ul>
-            <li>{food}</li>
+            <li key={index}>{food}</li>
           </ul>
       )
     return (
