@@ -14,10 +14,21 @@ class BeerCollection extends Component {
       beersPerPage: 8,
     }
     this.handleClick = this.handleClick.bind(this);
+    this.sortBeersByName = this.sortBeersByName.bind(this);
+    this.sortBeersByAbv = this.sortBeersByAbv.bind(this);
   }
   handleClick(e) {
     this.setState({currentPage: Number(e.target.id)});
   }
+  sortBeersByName() {
+    const sorted = [].concat(this.state.beers).sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+    this.setState({ beers : sorted })
+  }
+
+  sortBeersByAbv() {
+    const sorted = [].concat(this.state.beers).sort((a,b) => (a.abv > b.abv) ? 1 : ((b.abv > a.abv) ? -1 : 0));
+    this.setState({ beers : sorted })
+  };
   render() {
     const { currentPage, beersPerPage, beers } = this.state;
     const indexOfLastBeer = currentPage * beersPerPage;
@@ -57,14 +68,36 @@ class BeerCollection extends Component {
         />;
     })
     return (
-      <div className="container">
-        <div className="row">
-          {renderBeers}
+      <div>
+        <div className="header-style">
+            <button onClick={this.sortBeersByAbv}> Sort By Abv</button>
+            <button onClick={this.sortBeersByName}>Sort By Name</button>
         </div>
-        <div className="paginate-container">
-          <ul id="page-numbers">
-            {renderPageNumbers}
-          </ul>
+        <div className="form-style">
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <input
+                className="header-input-form"
+                id="search"
+                placeholder= "Search Beers"
+                type='text'
+                autoComplete="off"
+                onChange={this.handleChange}/>
+            </label>
+            <button type="submit" value="Submit">
+              Submit
+            </button>
+          </form>
+        </div>
+        <div className="container">
+          <div className="row">
+            {renderBeers}
+          </div>
+          <div className="paginate-container">
+            <ul id="page-numbers">
+              {renderPageNumbers}
+            </ul>
+          </div>
         </div>
       </div>
     )
