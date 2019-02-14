@@ -5,6 +5,10 @@ import Beer from './Beer';
 import ReactPaginate from 'react-paginate';
 import PropTypes from 'prop-types';
 
+const currentPageStyle = {
+  fontWeight: "bold"
+}
+
 class BeerCollection extends Component {
   constructor(props) {
     super(props)
@@ -32,7 +36,7 @@ class BeerCollection extends Component {
   render() {
     const { currentPage, beersPerPage, beers } = this.state;
     const indexOfLastBeer = currentPage * beersPerPage;
-    const indexOfFirstBeer = indexOfLastBeer - beers;
+    const indexOfFirstBeer = indexOfLastBeer - beersPerPage;
     const currentBeers = beers.slice(indexOfFirstBeer, indexOfLastBeer);
 
     // Logic for displaying page numbers
@@ -41,6 +45,18 @@ class BeerCollection extends Component {
       pageNumbers.push(i);
     }
     const renderPageNumbers = pageNumbers.map(number => {
+      if (number === currentPage) {
+        return (
+          <li
+            key={number}
+            id={number}
+            onClick={this.handleClick}
+            style={currentPageStyle}
+          >
+            {number}
+          </li>
+        )
+      }
       return (
         <li
           key={number}
